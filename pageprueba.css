@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+body{
+  font-family: Poppins;
+  margin: 0;
+  background-color: #010101;
+  color: #eee;
+  background: url("img/fondo11.jpeg") no-repeat center/cover;
+}
+svg{ width: 25px; }
+
+header{
+  width: 1200px;
+  max-width: 90%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 160px 1fr 50px;
+  grid-template-rows: 50px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 100;
+}
+header .logo{ font-weight: 800; letter-spacing: .5px; }
+header .menu{
+  padding: 0; margin: 0;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-weight: 500;
+  opacity: .9;
+}
+header .menu li{ cursor: default; }
+
+/* slider */
+.slider{
+  height: 100vh;
+  margin-top: -50px;
+  position: relative;
+}
+.slider .list .item{
+  position: absolute;
+  inset: 0 0 0 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: .55s;
+
+  /* ✅ CLAVE: crea "capas" bien */
+  isolation: isolate;
+}
+
+/* fondo (poster) */
+.slider .list .item .bg{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.05);
+  filter: saturate(1.05) contrast(1.05);
+
+  /* ✅ CLAVE: que sea capa de fondo y no tape clicks */
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* gradient overlay */
+.slider .list .item::after{
+  content: '';
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-image: linear-gradient(to top, #000 38%, transparent);
+
+  /* ✅ ya lo tenías, perfecto */
+  pointer-events: none;
+
+  /* ✅ CLAVE: overlay arriba del fondo, pero debajo del video */
+  z-index: 1;
+}
+
+/* VIDEO: ocupa casi toda la pantalla */
+.slider .list .item .vid{
+  position: absolute;
+  right: 4%;
+  top: 5%;
+  width: min(62vw, 980px);
+  height: min(62vh, 600px);
+  border-radius: 18px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid #ffffff22;
+  box-shadow: 0 30px 90px rgba(0,0,0,.55);
+
+  /* ✅ CLAVE: video arriba del overlay */
+  z-index: 5;
+}
+
+/* content a la izquierda */
+.slider .list .item .content{
+  position: absolute;
+  left: 10%;
+  top: 18%;
+  width: 520px;
+  max-width: 86%;
+
+  /* ✅ encima también */
+  z-index: 6;
+}
+.slider .list .item .content p:nth-child(1){
+  text-transform: uppercase;
+  letter-spacing: 10px;
+  opacity: .85;
+}
+.slider .list .item .content h2{
+  font-size: 86px;
+  line-height: 0.95;
+  margin: 0;
+  font-weight: 900;
+  text-shadow: 0 16px 60px rgba(0,0,0,.55);
+}
+.slider .list .item .content p:nth-child(3){
+  opacity: .85;
+  line-height: 1.6;
+  max-width: 460px;
+}
+
+/* active */
+.slider .list .item.active{
+  opacity: 1;
+  z-index: 10;
+}
+
+/* content animation */
+@keyframes showContent {
+  to{
+    transform: translateY(0);
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+.slider .list .item.active p:nth-child(1),
+.slider .list .item.active h2,
+.slider .list .item.active p:nth-child(3){
+  transform: translateY(30px);
+  filter: blur(20px);
+  opacity: 0;
+  animation: showContent .5s .7s ease-in-out 1 forwards;
+}
+.slider .list .item.active h2{ animation-delay: 1s; }
+.slider .list .item.active p:nth-child(3){ animation-duration: 1.2s; }
+
+/* arrows */
+.arrows{
+  position: absolute;
+  top: 30%;
+  right: 50px;
+  z-index: 100;
+}
+.arrows button{
+  background-color: #eee5;
+  border: none;
+  font-family: monospace;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  font-size: x-large;
+  color: #eee;
+  transition: .5s;
+  cursor: pointer;
+}
+.arrows button:hover{
+  background-color: #eee;
+  color: black;
+}
+
+/* thumbnail */
+.thumbnail{
+  position: absolute;
+  bottom: 50px;
+  z-index: 11;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: 250px;
+
+  /* ✅ CLAVE: para que el item 1 siempre sea accesible */
+  padding: 0 50px;
+  box-sizing: border-box;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  /* ✅ CLAVE: NO centrar, arrancar desde la izquierda */
+  justify-content: flex-start;
+
+  /* ✅ más suave el scroll */
+  scroll-behavior: smooth;
+
+  /* ✅ evita scroll raro en algunos navegadores */
+  -webkit-overflow-scrolling: touch;
+}
+
+.thumbnail::-webkit-scrollbar{ width: 0; }
+.thumbnail .item{
+  width: 150px;
+  height: 220px;
+  filter: brightness(.5);
+  transition: .5s;
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+}
+.thumbnail .item img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.thumbnail .item.active{ filter: brightness(1.5); }
+.thumbnail .item .content{
+  position: absolute;
+  inset: auto 10px 10px 10px;
+  background: #0008;
+  border: 1px solid #ffffff18;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  width: fit-content;
+}
+
+/* responsive */
+@media screen and (max-width: 678px) {
+  header{ grid-template-columns: 120px 1fr 40px; }
+
+  .thumbnail{ justify-content: start; height: 210px; }
+  .thumbnail .item{ width: 120px; height: 170px; }
+
+  .slider .list .item .content h2{ font-size: 56px; }
+  .slider .list .item .vid{
+    right: 6%;
+    top: 44%;
+    width: 88vw;
+    height: 36vh;
+  }
+  .arrows{ top: 10%; }
+}

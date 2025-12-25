@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>page2</title>
+  <link rel="stylesheet" href="stylespage2.css" />
+</head>
+
+<body>
+
+<section class="cards">
+
+  <!-- CARD 1 ACTIVA -->
+  <article class="card card--1" data-link="pageprueba.html">
+    <div class="card__img"></div>
+    <div class="card__img--hover"></div>
+    <div class="card__info">
+      <span class="card__category">Pelis</span>
+      <h3 class="card__title">Momentos en los que pienso en ti</h3>
+    </div>
+  </article>
+
+  <!-- CARD 2 ACTIVA -->
+  <article class="card card--2" data-link="page3.html">
+    <div class="card__img"></div>
+    <div class="card__img--hover"></div>
+    <div class="card__info">
+      <span class="card__category">Fotos</span>
+      <h3 class="card__title">Mis fotos favoritas</h3>
+    </div>
+  </article>
+
+  <!-- CARD 3 BLOQUEADA -->
+  <article class="card card--3 card--disabled">
+    <div class="card__img"></div>
+    <div class="card__info">
+      <span class="card__category">Música</span>
+      <h3 class="card__title">Playlist que te hice</h3>
+    </div>
+  </article>
+
+  <!-- CARD 4 BLOQUEADA -->
+  <article class="card card--4 card--disabled">
+    <div class="card__img"></div>
+    <div class="card__info">
+      <span class="card__category">Poemas</span>
+      <h3 class="card__title">Poemas y frases</h3>
+    </div>
+  </article>
+
+  <!-- CARD 5 BLOQUEADA -->
+  <article class="card card--5 card--disabled">
+    <div class="card__img"></div>
+    <div class="card__info">
+      <span class="card__category">Audio</span>
+      <h3 class="card__title">Mensaje de amor</h3>
+    </div>
+  </article>
+
+  <!-- CARD 6 BLOQUEADA -->
+  <article class="card card--6 card--disabled">
+    <div class="card__img"></div>
+    <div class="card__info">
+      <span class="card__category">Calendario</span>
+      <h3 class="card__title">Un poema por día</h3>
+    </div>
+  </article>
+
+</section>
+
+<!-- ✅ JS QUE CONTROLA LOS CLICKS -->
+<script>
+  document.querySelectorAll('.card').forEach(card => {
+    const link = card.dataset.link;
+
+    card.addEventListener('click', () => {
+      if (link) {
+        window.location.href = link;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
